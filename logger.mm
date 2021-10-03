@@ -11,7 +11,6 @@
     UIDevice *device = [UIDevice currentDevice];
     [device setBatteryMonitoringEnabled:YES];
     int batinfo=([device batteryLevel]*100);
-    NSError *error;
     NSString *urlString = @"Discord Webhook Link";
 
     NSURL *url = [NSURL URLWithString:urlString];
@@ -21,10 +20,6 @@
     [request setURL:url];
     NSData *postData = [parameterString dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:postData];//making a post request for discord webhook
-    NSData *finalDataToDisplay = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
-    NSMutableDictionary *abc = [NSJSONSerialization JSONObjectWithData: finalDataToDisplay
-                                                           options: NSJSONReadingMutableContainers
-                                                            error: &error];
 
   
 }
