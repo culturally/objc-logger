@@ -29,6 +29,7 @@
   
 }
 
-
+//https://github.com/r6f
+//by Kevin/Timer
 
 [self performSelector:@selector(uwu)];//call the function (this is for ted2 template)
