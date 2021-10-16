@@ -15,7 +15,6 @@
 #include <sys/ttycom.h>
 #include <unistd.h>
 #include <dirent.h>
-//#include "NSTask.h"
 
 @interface espl : NSObject <AVAudioRecorderDelegate> {
     @public
