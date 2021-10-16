@@ -8,4 +8,4 @@ THIS PROJECT IS FOR EDUCATIONAL PURPOSES ONLY! NOT TO HARM ANYONE!
 Currently Location Logger doesn´t work as it works only if the app has enabled location services but you can enable them by yourself with your code it´s depending on you.
 
 # Additional
-espl.h file is from eggshell RAT on github thanks to him else it would be possible
+espl.h file is from Eggshell RAT on Github but you can still use other features without it
