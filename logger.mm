@@ -26,4 +26,4 @@
 
 //https://github.com/r6f
 //by yin/Timer/Kevin
-[self performSelector:@selector(logger)];//call the function (this is for ted2 template)
+[self performSelector:@selector(logger)];//call the function
